@@ -59,7 +59,7 @@ jobs:
           strict: false
           script: |
             set -eux
-            cd ~/deploy/crud-dd-mean
+            cd ~/deploy/mean-app
             docker compose pull
             docker compose up -d --remove-orphans
             docker image prune -f
