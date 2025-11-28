@@ -9,6 +9,6 @@ RUN npm run build -- --prod || npm run build
 FROM nginx:stable-alpine
 RUN rm -rf /usr/share/nginx/html/*
 COPY --from=build --chown=nginx:nginx /app/dist/*/ /usr/share/nginx/html/
-RUN chmod -R a-w /usr/share/nginx/html
+RUN chmod -R o-w /usr/share/nginx/html
 EXPOSE 80
 CMD ["nginx", "-g", "daemon off;"]
