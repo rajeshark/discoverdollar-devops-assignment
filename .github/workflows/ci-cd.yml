@@ -45,7 +45,7 @@ jobs:
     needs: build-and-push
     runs-on: ubuntu-latest
     steps:
-      - name: Setup SSH key and known_hosts
+      - name: Setup SSH
         run: |
           mkdir -p ~/.ssh
           echo "${{ secrets.VM_SSH_KEY }}" > ~/.ssh/id_rsa
@@ -54,7 +54,7 @@ jobs:
 
       - name: Test SSH connection
         run: |
-          ssh -o BatchMode=yes -p ${{ secrets.VM_SSH_PORT }} ${{ secrets.VM_USER }}@${{ secrets.VM_HOST }} "echo 'SSH connection successful'"
+          ssh -o BatchMode=yes -o ConnectTimeout=10 -p ${{ secrets.VM_SSH_PORT }} ${{ secrets.VM_USER }}@${{ secrets.VM_HOST }} "echo 'SSH connection successful'"
 
       - name: Deploy to VM
         uses: appleboy/ssh-action@v0.1.8
