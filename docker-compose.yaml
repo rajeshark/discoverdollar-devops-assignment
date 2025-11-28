@@ -55,7 +55,7 @@ services:
     image: nginx:stable-alpine
     restart: unless-stopped
     ports:
-      - "80:80"   # public entrypoint
+      - "80:80"   
     volumes:
       - ./ngnix/proxy.conf:/etc/nginx/conf.d/default.conf:ro
     depends_on:
