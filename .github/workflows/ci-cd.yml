@@ -29,6 +29,8 @@ jobs:
           context: ./backend
           push: true
           tags: ${{ secrets.DOCKERHUB_USERNAME }}/backend:latest
+          cache-from: type=gha
+          cache-to: type=gha,mode=max
 
       - name: Build and push frontend
         uses: docker/build-push-action@v4
@@ -36,11 +38,24 @@ jobs:
           context: ./frontend
           push: true
           tags: ${{ secrets.DOCKERHUB_USERNAME }}/frontend:latest
+          cache-from: type=gha
+          cache-to: type=gha,mode=max
 
   deploy:
     needs: build-and-push
     runs-on: ubuntu-latest
     steps:
+      - name: Setup SSH key and known_hosts
+        run: |
+          mkdir -p ~/.ssh
+          echo "${{ secrets.VM_SSH_KEY }}" > ~/.ssh/id_rsa
+          chmod 600 ~/.ssh/id_rsa
+          ssh-keyscan -p ${{ secrets.VM_SSH_PORT }} ${{ secrets.VM_HOST }} >> ~/.ssh/known_hosts
+
+      - name: Test SSH connection
+        run: |
+          ssh -o BatchMode=yes -p ${{ secrets.VM_SSH_PORT }} ${{ secrets.VM_USER }}@${{ secrets.VM_HOST }} "echo 'SSH connection successful'"
+
       - name: Deploy to VM
         uses: appleboy/ssh-action@v0.1.8
         with:
@@ -50,14 +65,23 @@ jobs:
           port: ${{ secrets.VM_SSH_PORT }}
           script: |
             cd ~/deploy/dd-mean
+            echo "Pulling latest images..."
             docker compose pull
+            echo "Starting containers..."
             docker compose up -d --remove-orphans
+            echo "Waiting for backend to be healthy..."
             for i in {1..30}; do
-              status=$(curl -s -o /dev/null -w "%{http_code}" http://localhost:8080/ || echo "000")
-              if [ "$status" = "200" ]; then
-                echo "Backend healthy"
+              if curl -s -f http://localhost:8080/ > /dev/null; then
+                echo "✅ Backend is healthy!"
+                echo "Deployment completed successfully!"
                 exit 0
               fi
+              echo "⏳ Attempt $i: Backend not ready yet... Waiting 5 seconds"
               sleep 5
             done
+            echo "❌ Backend health check failed after 30 attempts"
+            echo "Current container status:"
+            docker compose ps
+            echo "Backend logs:"
+            docker compose logs backend
             exit 1
