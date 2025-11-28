@@ -18,7 +18,7 @@ services:
     depends_on:
       - mongo
     environment:
-      MONGO_URI: mongodb://${MONGO_ROOT_USERNAME}:${MONGO_ROOT_PASSWORD}@mongo:27017/${DB_NAME}?authSource=admin
+      MONGO_URL: mongodb://${MONGO_ROOT_USERNAME}:${MONGO_ROOT_PASSWORD}@mongo:27017/${DB_NAME}?authSource=admin
       PORT: ${BACKEND_PORT}
     networks:
       - dd-net
