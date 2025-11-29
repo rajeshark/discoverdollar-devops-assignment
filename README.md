@@ -5,10 +5,10 @@ The application will manage a collection of tutorials, where each tutorial inclu
 # step 1-  prepare the docker file ,.dockergitignore,docker-compose.yaml
 ## .dockerinore - 
 prevent copying unnneccesy files into images such as :
--node_modules /',
--.*logs /'
--.idea/' 
--temporary files/'
+-'node_modules /',
+-'.*logs /'
+-'.idea/' 
+-temporary files
 do this image became small and which makes build and depoly faster
 
 ## docker-compose.yaml 
@@ -24,12 +24,12 @@ There are a total of **four containers**:
 # Step 2: Push the Code to an Empty GitHub Repository
 
 Use the following Git commands to push your project into a new GitHub repo:
--git init/'
--git add ./'
--git commit -m "first commit"/'
--git remote add origin https://github.com/rajeshark/discoverdollar-devops-assignment.git/'
--git branch -M main/'
--git push -u origin main/'
+-'git init/'
+-'git add ./'
+-'git commit -m "first commit"/'
+-'git remote add origin https://github.com/rajeshark/discoverdollar-devops-assignment.git/'
+-'git branch -M main/'
+-git push -u origin main
 
 # Step 3: prepare infrastructure in aws (ec2)
 -use AMI OF EC2 IS ubuntu/'
