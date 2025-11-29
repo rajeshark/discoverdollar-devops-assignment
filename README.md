@@ -5,10 +5,10 @@ The application will manage a collection of tutorials, where each tutorial inclu
 # step 1-  prepare the docker file ,.dockergitignore,docker-compose.yaml
 ## .dockerinore - 
 prevent copying unnneccesy files into images such as :
--'node_modules /',
--'.*logs /'
--'.idea/' 
--temporary files
+- 'node_modules /',
+- '.*logs /'
+- '.idea/' 
+- temporary files
 do this image became small and which makes build and depoly faster
 
 ## docker-compose.yaml 
