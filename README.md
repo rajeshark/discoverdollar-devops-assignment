@@ -5,11 +5,13 @@ The application will manage a collection of tutorials, where each tutorial inclu
 # step 1-  prepare the docker file ,.dockergitignore,docker-compose.yaml
 .dockerinore - prevent copying unnneccesy files into images such as node_modules ,.*logs ,.idea etc do this image became small and which makes build and depoly faster
 docker-compose.yaml -used to manage ,define and run multiconatiner app together . here wec define each container as service ,here we also careted custom network that is default on bridge network for conatiner communition also we attching data volumes to mangodb conatiner for dat persistence
-sothat data remains in volume even after container restart ,stoped or removed,
+sothat data remains in volume even after container restart ,stoped or removed, . also restting restart policy unless-stoped  so the unless we stop manulaly it keeps running  automatically even docker daemon crash and restart , hostmachine  restart
 here total four containers -ngnix-reverse-proxy/nginx stable  image in docker compose
                             frontend/dockerfile 
                             backend/dockerfile
                             mango db/stable mango image in docker-compose 
+update the forntend code services/tutorial.service.ts to const baseUrl = '/api/tutorials'; this is base  api url for frontend to connnect backend
+
 # stpe 2 push the code to github empty repo
 using  - git init
         -git add .
@@ -58,7 +60,7 @@ sudo apt install -y git
 
 # step 5 after the above sofware install next github repo clone into ec2 beacse first time we do docker images and run manually then later ci/cd will deploy continously .
 
-craete one project repo in ec2 then clone github repo to the folder using 
+create one project repo in ec2 then clone github repo to the folder using 
 mkdir -p ~/deploy/dd-mean
 cd ~/deploy/dd-mean
 git clone https://github.com/rajeshark/discoverdollar-devops-assignment.git .
@@ -90,7 +92,7 @@ if any problems chack logs of conatines using -docker logs container name
 
 #step final step settiing the ci/cd pipeline
 code is in .github/workflows/ci-cd.yml
-set secrets for github action 
+set secrets for github action such as 
 
 
 
