@@ -58,8 +58,8 @@ sudo apt update
 sudo apt install -y docker-ce docker-ce-cli containerd.io
 
 3) Add User to Docker Group (avoid sudo):
-sudo usermod -aG docker $USER
-newgrp docker
+- 'sudo usermod -aG docker $USER
+newgrp docker/'
 
 4)Install Docker Compose (latest)
 sudo curl -L "https://github.com/docker/compose/releases/latest/download/docker-compose-$(uname -s)-$(uname -m)" \
@@ -69,7 +69,7 @@ sudo chmod +x /usr/local/bin/docker-compose
 docker-compose --version
 
 5)install git for cloning
-sudo apt install -y git
+- 'sudo apt install -y git/'
 
 # step 5 after the above sofware install next github repo clone into ec2 beacse first time we do build docker images and run containers manually then later ci/cd will deploy continously .
 
@@ -79,13 +79,13 @@ create one project folder in ec2 then clone github repo to the folder using :
 - 'git clone https://github.com/rajeshark/discoverdollar-devops-assignment.git ./'
 
 # step 6 set the .env file in dd-mean folder
-using nano .env
-set .env varibles 
-MONGO_ROOT_USERNAME=root
-MONGO_ROOT_PASSWORD=Rajesha1009
-DB_NAME=dd_db
-BACKEND_PORT=8080
-DOCKERHUB_USERNAME=rajeshark100920
+- 'using nano .env/'
+- 'set .env varibles/' 
+- 'MONGO_ROOT_USERNAME=root/'
+- 'MONGO_ROOT_PASSWORD=Rajesha1009/'
+- 'DB_NAME=dd_db/'
+- 'BACKEND_PORT=8080/'
+- 'DOCKERHUB_USERNAME=rajeshark100920/'
 
 # step 7 build images loaclly during first then docker compose up
 - 'docker build -t rajesha100920/frontend ./frontend/'
@@ -118,11 +118,11 @@ code is in .github/workflows/ci-cd.yml
 3) connnect to ec2 and use vim /etc/ssh/sshd_config there edit config file such as -PermitRootLogin yes ,-PubkeyAuthentication yes  this make ssh of ci/cd to ec2 machine without password asking
                                                                                     
 4) ok evrything seted  in pipeline code main concepts is when triggers comes manes if commit code
-- 1) Github action first  cheack wheather the code changes where in frontend folder or backend or docker compose based on changes cases are
-     if frontend folder code changes , no backend - only frontend image builded and pushed to docker hub then deploy this changes frotend containers only
-     if no frontend , backend folder code changed - only bacakend image builded and pushed to docker hub and deploy only backend conatiner reamining running same
-     if docker compose file changed then - both frontend and backend images builded and pushed to docker hub deploy latest images form docker hub both frontend and nackend
-    if other then this onlt folder ,files cahnges all other steps in ci-cd skipped
+ Github action first  cheack wheather the code changes where in frontend folder or backend or docker compose based on changes cases are:
+   - if frontend folder code changes , no backend - only frontend image builded and pushed to docker hub then deploy this changes frotend containers only
+   - if no frontend , backend folder code changed - only bacakend image builded and pushed to docker hub and deploy only backend conatiner reamining running same
+   - if docker compose file changed then - both frontend and backend images builded and pushed to docker hub deploy latest images form docker hub both frontend and nackend
+  - if other then this onlt folder ,files cahnges all other steps in ci-cd skipped
 result of ci/cd pipeline.
 
 # step 10 result of ci/cd pipeline 
