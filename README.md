@@ -2,312 +2,148 @@ In this DevOps task, you need to build and deploy a full-stack CRUD application 
 
 The application will manage a collection of tutorials, where each tutorial includes an ID, title, description, and published status. Users will be able to create, retrieve, update, and delete tutorials. Additionally, a search box will allow users to find tutorials by title.
 
-Phase 1: Repository Setup
-Step 1: Clone and Explore
-bash
-# Clone the repository
-git clone https://github.com/yourusername/your-repo-name.git
-cd your-repo-name
+# step 1-  prepare the docker file ,.dockergitignore,docker-compose.yaml
+## .dockerinore - 
+prevent copying unnneccesy files into images such as :
+- 'node_modules /',
+- '.*logs /'
+- '.idea/' 
+- temporary files
+do this image became small and which makes build and depoly faster
 
-# Explore project structure
-ls -la
-Step 2: Understand the Codebase
-Frontend: Angular application in /frontend
+## docker-compose.yaml 
+-used to manage ,define and run multicontainer app together . here wec define each container as service ,here we also careted custom network that is default on bridge network for conatiner communition also we attching data volumes to mangodb conatiner for data persistence so that data remains in volume even after container restart ,stoped or removed, . also restting restart policy unless-stoped  so the unless we stop manulaly it keeps running  automatically even docker daemon crash and restart , hostmachine  restart.
 
-Backend: Node.js/Express API in /backend
+There are a total of **four containers**:
+1. **Nginx reverse proxy** – using `nginx:stable` image  
+2. **Frontend** – built using `frontend/Dockerfile`  
+3. **Backend** – built using `backend/Dockerfile`  
+4. **MongoDB** – using official `mongo:6` (or stable) image  
 
-Configuration: Docker and deployment files in root
 
-Phase 2: Local Development Setup
-Step 3: Backend Setup
-bash
-cd backend
+# Step 2: Push the Code to an Empty GitHub Repository
 
-# Install dependencies
-npm install
+Use the following Git commands to push your project into a new GitHub repo:
+- 'git init/'
+- 'git add ./'
+- 'git commit -m "first commit"/'
+- 'git remote add origin https://github.com/rajeshark/discoverdollar-devops-assignment.git/'
+- 'git branch -M main/'
+-  git push -u origin main
 
-# Create environment file
-cp .env.example .env
+# Step 3: prepare infrastructure in aws (ec2)
+- 'use AMI OF EC2 IS ubuntu/'
+- 'instance type -c7i-flex.large/'
+- 'using -degault vpc is ok now not real word use custom vpc/'
+- 'security group all ssh and http for anyware/'
+- 'storage is 8-gp3/'
+![result](imges-result/infrasture-that-running-in-aws.png)
 
-# Edit environment variables
-nano .env
-Add to .env:
 
-env
-NODE_ENV=development
-PORT=3000
-MONGODB_URI=mongodb://localhost:27017/crud-app
-Step 4: Frontend Setup
-bash
-cd frontend
+# step 4: connect to running ec2 using aws connect 
+after connected to ec2 :
 
-# Install dependencies
-npm install
+1)update the sysem first:
+- 'sudo apt update && sudo apt upgrade -y/'
 
-# Build for production
-npm run build
-Step 5: Test Locally
-bash
-# Terminal 1 - Start backend
-cd backend
-npm start
+2)install docker 
+- 'sudo apt install -y apt-transport-https ca-certificates curl software-properties-common
+curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo gpg --dearmor -o /usr/share/keyrings/docker.gpg
+echo \
+  "deb [arch=$(dpkg --print-architecture) signed-by=/usr/share/keyrings/docker.gpg] \
+  https://download.docker.com/linux/ubuntu $(lsb_release -cs) stable" \
+  | sudo tee /etc/apt/sources.list.d/docker.list > /dev/null /'
 
-# Terminal 2 - Start frontend
-cd frontend
-ng serve
+sudo apt update
+sudo apt install -y docker-ce docker-ce-cli containerd.io
 
-# Access at: http://localhost:4200
-Phase 3: Docker Containerization
-Step 6: Build Docker Images
-bash
-# Build backend image
-docker build -t yourusername/mean-backend ./backend
+3) Add User to Docker Group (avoid sudo):
+- 'sudo usermod -aG docker $USER
+newgrp docker/'
 
-# Build frontend image
-docker build -t yourusername/mean-frontend ./frontend
+4)Install Docker Compose (latest)
+sudo curl -L "https://github.com/docker/compose/releases/latest/download/docker-compose-$(uname -s)-$(uname -m)" \
+  -o /usr/local/bin/docker-compose
 
-# Or build all with compose
-docker-compose build
-Step 7: Test Docker Containers Locally
-bash
-# Start all services
-docker-compose up -d
-
-# Check running containers
-docker ps
-
-# Expected output:
-# CONTAINER ID   IMAGE          PORTS                   NAMES
-# abc123         mean-frontend  0.0.0.0:80->80/tcp      frontend
-# def456         mean-backend   0.0.0.0:3000->3000/tcp  backend
-# ghi789         mongo          0.0.0.0:27017->27017/tcp mongodb
-
-# View logs
-docker-compose logs -f
-Step 8: Push to Docker Hub
-bash
-# Login to Docker Hub
-docker login
-
-# Tag images
-docker tag mean-backend yourusername/mean-backend:latest
-docker tag mean-frontend yourusername/mean-frontend:latest
-
-# Push to registry
-docker push yourusername/mean-backend:latest
-docker push yourusername/mean-frontend:latest
-Phase 4: Cloud Infrastructure Setup
-Step 9: Create Cloud VM (AWS EC2)
-Launch EC2 Instance
-
-OS: Ubuntu 20.04 LTS
-
-Instance Type: t2.micro (free tier)
-
-Storage: 8GB SSD
-
-Configure Security Group
-
-bash
-# Open ports:
-- SSH: 22
-- HTTP: 80
-- Backend API: 3000
-- MongoDB: 27017
-SSH into Instance
-
-bash
-ssh -i your-key.pem ubuntu@your-ec2-ip-address
-Step 10: Install Docker on VM
-bash
-# Update system
-sudo apt update && sudo apt upgrade -y
-
-# Install Docker
-curl -fsSL https://get.docker.com -o get-docker.sh
-sudo sh get-docker.sh
-
-# Add user to docker group
-sudo usermod -aG docker ubuntu
-
-# Install Docker Compose
-sudo curl -L "https://github.com/docker/compose/releases/latest/download/docker-compose-$(uname -s)-$(uname -m)" -o /usr/local/bin/docker-compose
 sudo chmod +x /usr/local/bin/docker-compose
-
-# Verify installation
-docker --version
 docker-compose --version
 
-# Logout and login again for group changes
-exit
-ssh -i your-key.pem ubuntu@your-ec2-ip-address
-Phase 5: Production Deployment
-Step 11: Deploy Application on VM
-bash
-# Clone your repository
-git clone https://github.com/yourusername/your-repo-name.git
-cd your-repo-name
+5)install git for cloning
+- 'sudo apt install -y git/'
 
-# Create production environment file
-nano .env.production
-Add production variables:
+# step 5 after the above sofware install next github repo clone into ec2 beacse first time we do build docker images and run containers manually then later ci/cd will deploy continously .
 
-env
-NODE_ENV=production
-MONGODB_URI=mongodb://mongodb:27017/crud-app
-Step 12: Start Production Services
-bash
-# Deploy with Docker Compose
-docker-compose up -d
+create one project folder in ec2 then clone github repo to the folder using :
+- 'mkdir -p ~/deploy/dd-mean/'
+- 'cd ~/deploy/dd-mean/'
+- 'git clone https://github.com/rajeshark/discoverdollar-devops-assignment.git ./'
 
-# Verify all services are running
-docker ps
+# step 6 set the .env file in dd-mean folder
+- 'using nano .env/'
+- 'set .env varibles/' 
+- 'MONGO_ROOT_USERNAME=root/'
+- 'MONGO_ROOT_PASSWORD=Rajesha1009/'
+- 'DB_NAME=dd_db/'
+- 'BACKEND_PORT=8080/'
+- 'DOCKERHUB_USERNAME=rajeshark100920/'
 
-# Check service health
-curl http://localhost:3000/health
-curl http://localhost:80
-Step 13: Configure Nginx Reverse Proxy
-bash
-# Verify nginx configuration
-docker exec frontend nginx -t
+# step 7 build images loaclly during first then docker compose up
+- 'docker build -t rajesha100920/frontend ./frontend/'
+- 'docker build -t rajeha100920/backend ./backend/'
+- 'after this see the images - docker images/'
+- 'then using docker compose up -d  run the all containers here -d stands for detach mode/'
+-  using docker compose ps see all container status 
+if any problems chack logs of conatines using -docker logs container name
+![result](imges-result/image-showing-ec2-docker-compose-ps-status.png)
 
-# Check nginx is listening on port 80
-sudo netstat -tulpn | grep :80
 
-# Test reverse proxy routing
-curl http://localhost/api/health
-curl http://localhost/
-Phase 6: CI/CD Pipeline Setup
-Step 14: Configure GitHub Actions
-Create .github/workflows/deploy.yml:
+# step 8 use public ip of ec2 access the frontend ui result in broswer
 
-yaml
-name: Deploy MEAN Stack
+![result](imges-result/image-showing-frontend-added-tutorial.png)
+![result](imges-result/image-showing-added-tututrial-of-frontend-ui.png)
+![result](imges-result/image-frontend-ui-upadating-added-tutorial.png)
 
-on:
-  push:
-    branches: [ main ]
+# step 9 final step settiing the ci/cd pipeline
+code is in .github/workflows/ci-cd.yml
+1) set secrets for github action such as -  DOCKERHUB_TOKEN  -"DOCKER HUB access token " 
+                                         -  DOCKERHUB_USERNAME- "dockerhub username
+                                         -  VM_HOST -"ec2 public ip "
+                                         -  VM_SSH_KEY -"ssh-keygen private key"
+                                         -  VM_SSH_PORT - "22"
+                                         -  VM_USER -"root"
+2) using ssh-keygen command generate public and private keys locally
+-put the public key in ec2 vm in authorized_keys file
+-put the private key in gith hub action secrets that is VM_SSH_KEY
 
-jobs:
-  build-and-test:
-    runs-on: ubuntu-latest
-    steps:
-    - name: Checkout code
-      uses: actions/checkout@v3
-      
-    - name: Build Docker images
-      run: |
-        docker-compose build
-        
-    - name: Run tests
-      run: |
-        docker-compose up -d
-        docker-compose exec backend npm test
+3) connnect to ec2 and use vim /etc/ssh/sshd_config there edit config file such as -PermitRootLogin yes ,-PubkeyAuthentication yes  this make ssh of ci/cd to ec2 machine without password asking
+                                                                                    
+4) ok evrything seted  in pipeline code main concepts is when triggers comes manes if commit code
+ Github action first  cheack wheather the code changes where in frontend folder or backend or docker compose based on changes cases are:
+   - if frontend folder code changes , no backend - only frontend image builded and pushed to docker hub then deploy this changes frotend containers only
+   - if no frontend , backend folder code changed - only bacakend image builded and pushed to docker hub and deploy only backend conatiner reamining running same
+   - if docker compose file changed then - both frontend and backend images builded and pushed to docker hub deploy latest images form docker hub both frontend and nackend
+   - if other then this onlt folder ,files cahnges all other steps in ci-cd skipped result of ci/cd pipeline.
 
-  deploy-production:
-    needs: build-and-test
-    runs-on: ubuntu-latest
-    if: github.ref == 'refs/heads/main'
-    steps:
-    - name: Deploy to production server
-      uses: appleboy/ssh-action@master
-      with:
-        host: ${{ secrets.SERVER_HOST }}
-        username: ${{ secrets.SERVER_USER }}
-        key: ${{ secrets.SERVER_SSH_KEY }}
-        script: |
-          cd /home/ubuntu/your-repo-name
-          git pull origin main
-          docker-compose down
-          docker-compose pull
-          docker-compose up -d
-Step 15: Set GitHub Secrets
-Go to your GitHub repository
+# step 10 result of ci/cd pipeline 
 
-Settings → Secrets and variables → Actions
+![result](imges-result/ci-cd showing-if-changes-in-backenend .png)
+![result](imges-result/ci-cd-gitbub-action-result-image.png)
 
-Click New repository secret
 
-Add these secrets:
 
-SERVER_HOST: Your EC2 public IP
 
-SERVER_USER: ubuntu
 
-SERVER_SSH_KEY: Your private SSH key
 
-✅ Verification Checklist
-Application Verification
-Frontend accessible at http://your-server-ip
 
-Backend API responding at http://your-server-ip:3000/api
 
-MongoDB connected and responsive
 
-All Docker containers running without errors
 
-Infrastructure Verification
-Nginx routing traffic correctly
 
-Port 80 accessible from internet
 
-Security groups properly configured
 
-Docker services auto-start on reboot
 
-CI/CD Verification
-GitHub Actions workflow executing on push
 
-Automated builds successful
 
-Deployment to production working
 
-Containers restarting with new images
 
-🐛 Troubleshooting Guide
-Common Issues & Solutions
-1. Port Already in Use
-bash
-# Find process using port
-sudo lsof -i :80
-sudo lsof -i :3000
 
-# Kill process
-sudo kill -9 <PID>
-2. Docker Build Failures
-bash
-# Clean build cache
-docker system prune -a
-
-# Build with no cache
-docker-compose build --no-cache
-3. MongoDB Connection Issues
-bash
-# Check if MongoDB is running
-docker exec mongodb mongo --eval "db.adminCommand('ismaster')"
-
-# Check connection from backend
-docker-compose exec backend node -e "console.log('Testing DB connection')"
-4. Container Networking Problems
-bash
-# Check network
-docker network ls
-docker network inspect your-repo-name_mean-network
-
-# Restart services
-docker-compose down
-docker-compose up -d
-5. Nginx Configuration Errors
-bash
-# Test nginx config
-docker exec frontend nginx -t
-
-# View nginx logs
-docker-compose logs frontend
-Reset Everything
-bash
-# Complete environment reset
-docker-compose down -v --remove-orphans
-docker system prune -a
-docker volume prune
-docker-compose up -d --build
