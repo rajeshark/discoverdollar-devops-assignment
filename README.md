@@ -2,7 +2,7 @@ In this DevOps task, you need to build and deploy a full-stack CRUD application 
 
 The application will manage a collection of tutorials, where each tutorial includes an ID, title, description, and published status. Users will be able to create, retrieve, update, and delete tutorials. Additionally, a search box will allow users to find tutorials by title.
 
-# step 1-  prepare the docker file ,.dockergitignore,docker-compose.yaml
+## step 1-  prepare the docker file ,.dockergitignore,docker-compose.yaml
 ### .dockerinore - 
 prevent copying unnneccesy files into images such as :
 -node_modules /',
@@ -12,29 +12,44 @@ prevent copying unnneccesy files into images such as :
 do this image became small and which makes build and depoly faster
 
 ### docker-compose.yaml 
--used to manage ,define and run multiconatiner app together . here wec define each container as service ,here we also careted custom network that is default on bridge network for conatiner communition also we attching data volumes to mangodb conatiner for data persistence so that data remains in volume even after container restart ,stoped or removed, . also restting restart policy unless-stoped  so the unless we stop manulaly it keeps running  automatically even docker daemon crash and restart , hostmachine  restart
-here total four containers 
--'ngnix-reverse-proxy/nginx stable  image in docker compose'
-- 'frontend/dockerfile '
-- 'backend/dockerfile'
--' mango db/stable mango image in docker-compose '
-update the forntend code services/tutorial.service.ts to const baseUrl = '/api/tutorials'; this is base  api url for frontend to connnect backend
+-used to manage ,define and run multiconatiner app together . here wec define each container as service ,here we also careted custom network that is default on bridge network for conatiner communition also we attching data volumes to mangodb conatiner for data persistence so that data remains in volume even after container restart ,stoped or removed, . also restting restart policy unless-stoped  so the unless we stop manulaly it keeps running  automatically even docker daemon crash and restart , hostmachine  restart.
 
-# stpe 2 push the code to github empty repo
-using  - 'git init'
-        - 'git add .'
-        -'git commit -m "first commit"'
-        -'git remote add origin   https://github.com/rajeshark/discoverdollar-devops-assignment.git .'
-        -'git branch -M main'
-        -'git push -u origin main'
-        note:in company given code there a commment in tran.config.json file remove else docker build fails 
-# step 3 prepare infrastructure in aws (ec2)
-use AMI OF EC2 IS ubuntu
-instance type -c7i-flex.large
-using -degault vpc is ok now not real word use custom vpc
-security group all ssh and http for anyware
-storage is 8-gp3
+There are a total of **four containers**:
+1. **Nginx reverse proxy** – using `nginx:stable` image  
+2. **Frontend** – built using `frontend/Dockerfile`  
+3. **Backend** – built using `backend/Dockerfile`  
+4. **MongoDB** – using official `mongo:6` (or stable) image  
+
+
+## Step 2: Push the Code to an Empty GitHub Repository
+
+Use the following Git commands to push your project into a new GitHub repo:
+
+```bash
+git init
+git add .
+git commit -m "first commit"
+git remote add origin https://github.com/rajeshark/discoverdollar-devops-assignment.git
+git branch -M main
+git push -u origin main
+
+## Step 3: Prepare Infrastructure in AWS (EC2)
+
+ To host the application, create an EC2 instance with the following configuration:
+
+### 🖥️ EC2 Configuration
+- **AMI:** Ubuntu Server (latest LTS)
+- **Instance Type:** `c7i-flex.large`
+- **VPC:** Default VPC (for learning/demo;  
+  ⚠️ In real-world production, always use a **custom VPC**)
+- **Security Group:**
+  - Allow **SSH (22)** from anywhere (for demo; restrict in production)
+  - Allow **HTTP (80)** from anywhere
+- **Storage:** `8 GiB` — gp3 volume
+
+### 📷 Infrastructure Running in AWS
 ![result](imges-result/infrasture-that-running-in-aws.png)
+
 
 # step 4  connect to running ec2 using aws connect 
 after connected to ec2 
