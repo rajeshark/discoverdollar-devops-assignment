@@ -13,19 +13,20 @@ do this image became small and which makes build and depoly faster
 
 ### docker-compose.yaml 
 -used to manage ,define and run multiconatiner app together . here wec define each container as service ,here we also careted custom network that is default on bridge network for conatiner communition also we attching data volumes to mangodb conatiner for data persistence so that data remains in volume even after container restart ,stoped or removed, . also restting restart policy unless-stoped  so the unless we stop manulaly it keeps running  automatically even docker daemon crash and restart , hostmachine  restart
-here total four containers -'ngnix-reverse-proxy/nginx stable  image in docker compose'
-                            'frontend/dockerfile '
-                           ' backend/dockerfile'
-                           ' mango db/stable mango image in docker-compose '
+here total four containers 
+-'ngnix-reverse-proxy/nginx stable  image in docker compose'
+- 'frontend/dockerfile '
+- 'backend/dockerfile'
+-' mango db/stable mango image in docker-compose '
 update the forntend code services/tutorial.service.ts to const baseUrl = '/api/tutorials'; this is base  api url for frontend to connnect backend
 
 # stpe 2 push the code to github empty repo
-using  - git init
-        -git add .
-        -git commit -m "first commit"
-        -git remote add origin   https://github.com/rajeshark/discoverdollar-devops-assignment.git .
-        -git branch -M main
-        -git push -u origin main
+using  - 'git init'
+        - 'git add .'
+        -'git commit -m "first commit"'
+        -'git remote add origin   https://github.com/rajeshark/discoverdollar-devops-assignment.git .'
+        -'git branch -M main'
+        -'git push -u origin main'
         note:in company given code there a commment in tran.config.json file remove else docker build fails 
 # step 3 prepare infrastructure in aws (ec2)
 use AMI OF EC2 IS ubuntu
@@ -67,7 +68,7 @@ sudo apt install -y git
 
 # step 5 after the above sofware install next github repo clone into ec2 beacse first time we do docker images and run manually then later ci/cd will deploy continously .
 
-create one project repo in ec2 then clone github repo to the folder using 
+create one project folder in ec2 then clone github repo to the folder using 
 mkdir -p ~/deploy/dd-mean
 cd ~/deploy/dd-mean
 git clone https://github.com/rajeshark/discoverdollar-devops-assignment.git .
