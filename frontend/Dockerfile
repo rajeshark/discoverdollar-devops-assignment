@@ -2,7 +2,7 @@ FROM node:18-alpine AS build
 WORKDIR /app
 COPY package*.json ./
 RUN npm ci --silent 
-COPY . .
+COPY . . 
 RUN npm run build
 
 # Stage 2: production stage
