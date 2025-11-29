@@ -3,13 +3,20 @@ In this DevOps task, you need to build and deploy a full-stack CRUD application 
 The application will manage a collection of tutorials, where each tutorial includes an ID, title, description, and published status. Users will be able to create, retrieve, update, and delete tutorials. Additionally, a search box will allow users to find tutorials by title.
 
 # step 1-  prepare the docker file ,.dockergitignore,docker-compose.yaml
-.dockerinore - prevent copying unnneccesy files into images such as node_modules ,.*logs ,.idea etc do this image became small and which makes build and depoly faster
-docker-compose.yaml -used to manage ,define and run multiconatiner app together . here wec define each container as service ,here we also careted custom network that is default on bridge network for conatiner communition also we attching data volumes to mangodb conatiner for dat persistence
-sothat data remains in volume even after container restart ,stoped or removed, . also restting restart policy unless-stoped  so the unless we stop manulaly it keeps running  automatically even docker daemon crash and restart , hostmachine  restart
-here total four containers -ngnix-reverse-proxy/nginx stable  image in docker compose
-                            frontend/dockerfile 
-                            backend/dockerfile
-                            mango db/stable mango image in docker-compose 
+### .dockerinore - 
+prevent copying unnneccesy files into images such as :
+-node_modules /',
+-.*logs /'
+-.idea/' 
+-temporary files/'
+do this image became small and which makes build and depoly faster
+
+### docker-compose.yaml 
+-used to manage ,define and run multiconatiner app together . here wec define each container as service ,here we also careted custom network that is default on bridge network for conatiner communition also we attching data volumes to mangodb conatiner for data persistence so that data remains in volume even after container restart ,stoped or removed, . also restting restart policy unless-stoped  so the unless we stop manulaly it keeps running  automatically even docker daemon crash and restart , hostmachine  restart
+here total four containers -'ngnix-reverse-proxy/nginx stable  image in docker compose'
+                            'frontend/dockerfile '
+                           ' backend/dockerfile'
+                           ' mango db/stable mango image in docker-compose '
 update the forntend code services/tutorial.service.ts to const baseUrl = '/api/tutorials'; this is base  api url for frontend to connnect backend
 
 # stpe 2 push the code to github empty repo
