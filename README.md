@@ -42,21 +42,22 @@ Use the following Git commands to push your project into a new GitHub repo:
 
 # step 4: connect to running ec2 using aws connect 
 after connected to ec2 :
+
 1)update the sysem first:
 - 'sudo apt update && sudo apt upgrade -y/'
 
 2)install docker 
-sudo apt install -y apt-transport-https ca-certificates curl software-properties-common
+- 'sudo apt install -y apt-transport-https ca-certificates curl software-properties-common
 curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo gpg --dearmor -o /usr/share/keyrings/docker.gpg
 echo \
   "deb [arch=$(dpkg --print-architecture) signed-by=/usr/share/keyrings/docker.gpg] \
   https://download.docker.com/linux/ubuntu $(lsb_release -cs) stable" \
-  | sudo tee /etc/apt/sources.list.d/docker.list > /dev/null
+  | sudo tee /etc/apt/sources.list.d/docker.list > /dev/null /'
 
 sudo apt update
 sudo apt install -y docker-ce docker-ce-cli containerd.io
 
-3) Add User to Docker Group (avoid sudo)
+3) Add User to Docker Group (avoid sudo):
 sudo usermod -aG docker $USER
 newgrp docker
 
@@ -72,10 +73,10 @@ sudo apt install -y git
 
 # step 5 after the above sofware install next github repo clone into ec2 beacse first time we do build docker images and run containers manually then later ci/cd will deploy continously .
 
-create one project folder in ec2 then clone github repo to the folder using 
-mkdir -p ~/deploy/dd-mean
-cd ~/deploy/dd-mean
-git clone https://github.com/rajeshark/discoverdollar-devops-assignment.git .
+create one project folder in ec2 then clone github repo to the folder using :
+- 'mkdir -p ~/deploy/dd-mean/'
+- 'cd ~/deploy/dd-mean/'
+- 'git clone https://github.com/rajeshark/discoverdollar-devops-assignment.git ./'
 
 # step 6 set the .env file in dd-mean folder
 using nano .env
@@ -87,9 +88,9 @@ BACKEND_PORT=8080
 DOCKERHUB_USERNAME=rajeshark100920
 
 # step 7 build images loaclly during first then docker compose up
-docker build -t rajesha100920/frontend ./frontend
-docker build -t rajeha100920/backend ./backend
-after this see the images - docker images
+- 'docker build -t rajesha100920/frontend ./frontend/'
+- 'docker build -t rajeha100920/backend ./backend/'
+- 'after this see the images - docker images/'
 then using docker compose up -d  run the all containers here -d stands for detach mode
 using docker compose ps see all container status 
 if any problems chack logs of conatines using -docker logs container name
