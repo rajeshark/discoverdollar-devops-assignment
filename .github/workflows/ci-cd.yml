@@ -40,16 +40,14 @@ jobs:
         with:
           key: ${{ secrets.VM_SSH_KEY }}
           known_hosts: unnecessary
-          
-          
 
       - name: Deploy via SSH
+        run: |
           ssh -o StrictHostKeyChecking=no \
               -p ${{ secrets.VM_SSH_PORT }} \
-              ${{ secrets.VM_USER }}@${{ secrets.VM_HOST }} << 'EOF'
-            set -e
-            cd ~/deploy/dd-mean
-            docker compose pull
-            docker compose up -d --remove-orphans
-            echo "Deployment finished"
-          EOF
+              ${{ secrets.VM_USER }}@${{ secrets.VM_HOST }} "
+                cd ~/deploy/dd-mean
+                docker compose pull
+                docker compose up -d --remove-orphans
+                echo Deployment finished
+              "
