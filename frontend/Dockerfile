@@ -3,7 +3,7 @@ WORKDIR /app
 COPY package*.json ./
 RUN npm ci --silent 
 COPY . . 
-RUN npm run build 1
+RUN npm run build 
 
 # Stage 2: production stage
 FROM nginx:stable-alpine
