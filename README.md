@@ -126,8 +126,12 @@ code is in .github/workflows/ci-cd.yml
 
 # step 10 result of ci/cd pipeline 
 
-![result](imges-result/ci-cd showing-if-changes-in-backenend .png)
+![result](imges-result/ci-cd-showing-if-changes-in-backenend.png)
 ![result](imges-result/ci-cd-gitbub-action-result-image.png)
+![result](imges-result/ci-cd-workflow-part-1.png)
+![result](imges-result/ci-cd-workflow-part-2.png)
+![result](imges-result/ci-cd-workflow-part-3.png)
+
 
 
 
