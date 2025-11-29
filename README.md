@@ -91,8 +91,8 @@ create one project folder in ec2 then clone github repo to the folder using :
 - 'docker build -t rajesha100920/frontend ./frontend/'
 - 'docker build -t rajeha100920/backend ./backend/'
 - 'after this see the images - docker images/'
-then using docker compose up -d  run the all containers here -d stands for detach mode
-using docker compose ps see all container status 
+- 'then using docker compose up -d  run the all containers here -d stands for detach mode/'
+-  using docker compose ps see all container status 
 if any problems chack logs of conatines using -docker logs container name
 ![result](imges-result/image-showing-ec2-docker-compose-ps-status.png)
 
@@ -105,7 +105,7 @@ if any problems chack logs of conatines using -docker logs container name
 
 # step 9 final step settiing the ci/cd pipeline
 code is in .github/workflows/ci-cd.yml
-1) set secrets for github action such as DOCKERHUB_TOKEN  -"DOCKER HUB access token "  
+1) set secrets for github action such as  DOCKERHUB_TOKEN  -"DOCKER HUB access token "  
                                       DOCKERHUB_USERNAME- "dockerhub username"
                                       VM_HOST -"ec2 public ip "
                                       VM_SSH_KEY -"ssh-keygen private key"
@@ -122,8 +122,7 @@ code is in .github/workflows/ci-cd.yml
    - if frontend folder code changes , no backend - only frontend image builded and pushed to docker hub then deploy this changes frotend containers only
    - if no frontend , backend folder code changed - only bacakend image builded and pushed to docker hub and deploy only backend conatiner reamining running same
    - if docker compose file changed then - both frontend and backend images builded and pushed to docker hub deploy latest images form docker hub both frontend and nackend
-  - if other then this onlt folder ,files cahnges all other steps in ci-cd skipped
-result of ci/cd pipeline.
+   - if other then this onlt folder ,files cahnges all other steps in ci-cd skipped result of ci/cd pipeline.
 
 # step 10 result of ci/cd pipeline 
 
