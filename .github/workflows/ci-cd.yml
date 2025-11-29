@@ -35,17 +35,19 @@ jobs:
     needs: build-and-push
     runs-on: ubuntu-latest
     steps:
-      - name: Install SSH key and deploy
+      - name: Install SSH key
         uses: shimataro/ssh-key-action@v2
         with:
           key: ${{ secrets.VM_SSH_KEY }}
-          known_hosts: ${{ secrets.VM_HOST }}
 
       - name: Deploy via SSH
         run: |
-          ssh -o StrictHostKeyChecking=no -p ${{ secrets.VM_SSH_PORT }} ${{ secrets.VM_USER }}@${{ secrets.VM_HOST }} "
+          ssh -o StrictHostKeyChecking=no \
+              -p ${{ secrets.VM_SSH_PORT }} \
+              ${{ secrets.VM_USER }}@${{ secrets.VM_HOST }} << 'EOF'
+            set -e
             cd ~/deploy/dd-mean
             docker compose pull
             docker compose up -d --remove-orphans
-            echo 'Deployment completed successfully'
-          "
+            echo "Deployment finished"
+          EOF
