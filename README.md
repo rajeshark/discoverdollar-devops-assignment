@@ -3,7 +3,7 @@ In this DevOps task, you need to build and deploy a full-stack CRUD application 
 The application will manage a collection of tutorials, where each tutorial includes an ID, title, description, and published status. Users will be able to create, retrieve, update, and delete tutorials. Additionally, a search box will allow users to find tutorials by title.
 
 # step 1-  prepare the docker file ,.dockergitignore,docker-compose.yaml
-### .dockerinore - 
+## .dockerinore - 
 prevent copying unnneccesy files into images such as :
 -node_modules /',
 -.*logs /'
@@ -11,7 +11,7 @@ prevent copying unnneccesy files into images such as :
 -temporary files/'
 do this image became small and which makes build and depoly faster
 
-### docker-compose.yaml 
+## docker-compose.yaml 
 -used to manage ,define and run multicontainer app together . here wec define each container as service ,here we also careted custom network that is default on bridge network for conatiner communition also we attching data volumes to mangodb conatiner for data persistence so that data remains in volume even after container restart ,stoped or removed, . also restting restart policy unless-stoped  so the unless we stop manulaly it keeps running  automatically even docker daemon crash and restart , hostmachine  restart.
 
 There are a total of **four containers**:
@@ -23,9 +23,9 @@ There are a total of **four containers**:
 
 # Step 2: Push the Code to an Empty GitHub Repository
 
-Use the following Git commands to push your project into a new GitHub repo:
+   Use the following Git commands to push your project into a new GitHub repo:
 
-```bash
+
 git init
 git add .
 git commit -m "first commit"
