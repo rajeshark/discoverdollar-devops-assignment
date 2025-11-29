@@ -23,7 +23,7 @@ using  - git init
 # step 3 prepare infrastructure in aws (ec2)
 use AMI OF EC2 IS ubuntu
 instance type -c7i-flex.large
-using -degault vpc is ok now not real word
+using -degault vpc is ok now not real word use custom vpc
 security group all ssh and http for anyware
 storage is 8-gp3
 ![result](imges-result/infrasture-that-running-in-aws.png)
@@ -90,9 +90,34 @@ if any problems chack logs of conatines using -docker logs container name
 ![result](imges-result/image-showing-added-tututrial-of-frontend-ui.png)
 ![result](imges-result/image-frontend-ui-upadating-added-tutorial.png)
 
-#step final step settiing the ci/cd pipeline
+# step 9 final step settiing the ci/cd pipeline
 code is in .github/workflows/ci-cd.yml
-set secrets for github action such as 
+1) set secrets for github action such as DOCKERHUB_TOKEN  -"DOCKER HUB access token "  
+                                      DOCKERHUB_USERNAME- "dockerhub username"
+                                      VM_HOST -"ec2 public ip "
+                                      VM_SSH_KEY -"ssh-keygen private key"
+                                      VM_SSH_PORT - "22"
+                                      VM_USER -"root"
+2) using ssh-keygen command generate public and private keys locally
+-put the public key in ec2 vm in authorized_keys file
+-put the private key in gith hub action secrets that is VM_SSH_KEY
+
+3) connnect to ec2 and use vim /etc/ssh/sshd_config there edit config file such as -PermitRootLogin yes ,-PubkeyAuthentication yes  this make ssh of ci/cd to ec2 machine without password asking
+                                                                                    
+4) ok evrything seted  in pipeline code main concepts is when triggers comes manes if commit code
+- 1) Github action first  cheack wheather the code changes where in frontend folder or backend or docker compose based on changes cases are
+     if frontend folder code changes , no backend - only frontend image builded and pushed to docker hub then deploy this changes frotend containers only
+     if no frontend , backend folder code changed - only bacakend image builded and pushed to docker hub and deploy only backend conatiner reamining running same
+     if docker compose file changed then - both frontend and backend images builded and pushed to docker hub deploy latest images form docker hub both frontend and nackend
+    if other then this onlt folder ,files cahnges all other steps in ci-cd skipped
+result of ci/cd pipeline.
+
+# step 10 result of ci/cd pipeline 
+
+![result](imges-result/ci-cd showing-if-changes-in-backenend .png)
+![result](imges-result/ci-cd-gitbub-action-result-image.png)
+
+
 
 
 
