@@ -59,7 +59,7 @@ jobs:
           tags: ${{ secrets.DOCKERHUB_USERNAME }}/frontend:latest
 
   deploy:
-    needs: [detect, build-backend, build-frontend]
+    needs: detect
     if: ${{ needs.detect.outputs.backend == 'true' || needs.detect.outputs.frontend == 'true' || needs.detect.outputs.compose == 'true' }}
     runs-on: ubuntu-latest
     steps:
