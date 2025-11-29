@@ -24,19 +24,19 @@ There are a total of **four containers**:
 # Step 2: Push the Code to an Empty GitHub Repository
 
 Use the following Git commands to push your project into a new GitHub repo:
--'git init/'
--'git add ./'
--'git commit -m "first commit"/'
--'git remote add origin https://github.com/rajeshark/discoverdollar-devops-assignment.git/'
--'git branch -M main/'
--git push -u origin main
+- 'git init/'
+- 'git add ./'
+- 'git commit -m "first commit"/'
+- 'git remote add origin https://github.com/rajeshark/discoverdollar-devops-assignment.git/'
+- 'git branch -M main/'
+-  git push -u origin main
 
 # Step 3: prepare infrastructure in aws (ec2)
--use AMI OF EC2 IS ubuntu/'
--instance type -c7i-flex.large/'
--using -degault vpc is ok now not real word use custom vpc/'
--security group all ssh and http for anyware/'
--storage is 8-gp3/'
+- 'use AMI OF EC2 IS ubuntu/'
+- 'instance type -c7i-flex.large/'
+- 'using -degault vpc is ok now not real word use custom vpc/'
+- 'security group all ssh and http for anyware/'
+- 'storage is 8-gp3/'
 ![result](imges-result/infrasture-that-running-in-aws.png)
 
 
