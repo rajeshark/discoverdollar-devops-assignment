@@ -41,9 +41,9 @@ Use the following Git commands to push your project into a new GitHub repo:
 
 
 # step 4: connect to running ec2 using aws connect 
-after connected to ec2 
-1)update the sysem first
--sudo apt update && sudo apt upgrade -y/'
+after connected to ec2 :
+1)update the sysem first:
+- 'sudo apt update && sudo apt upgrade -y/'
 
 2)install docker 
 sudo apt install -y apt-transport-https ca-certificates curl software-properties-common
