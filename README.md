@@ -105,12 +105,12 @@ if any problems chack logs of conatines using -docker logs container name
 
 # step 9 final step settiing the ci/cd pipeline
 code is in .github/workflows/ci-cd.yml
-1) set secrets for github action such as  DOCKERHUB_TOKEN  -"DOCKER HUB access token "  
-                                      DOCKERHUB_USERNAME- "dockerhub username"
-                                      VM_HOST -"ec2 public ip "
-                                      VM_SSH_KEY -"ssh-keygen private key"
-                                      VM_SSH_PORT - "22"
-                                      VM_USER -"root"
+1) set secrets for github action such as - DOCKERHUB_TOKEN  -"DOCKER HUB access token "  
+                                         - DOCKERHUB_USERNAME- "dockerhub username"
+                                         - VM_HOST -"ec2 public ip "
+                                         - VM_SSH_KEY -"ssh-keygen private key"
+                                         - VM_SSH_PORT - "22"
+                                         - VM_USER -"root"
 2) using ssh-keygen command generate public and private keys locally
 -put the public key in ec2 vm in authorized_keys file
 -put the private key in gith hub action secrets that is VM_SSH_KEY
