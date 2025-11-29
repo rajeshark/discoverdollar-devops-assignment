@@ -1,4 +1,4 @@
-name: CI-CD-V1
+name: CI-CD-V2
 
 on:
   push:
