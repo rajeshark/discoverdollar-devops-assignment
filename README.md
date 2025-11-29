@@ -45,7 +45,7 @@ storage is 8-gp3
 # step 4: connect to running ec2 using aws connect 
 after connected to ec2 
 1)update the sysem first
-sudo apt update && sudo apt upgrade -y
+-sudo apt update && sudo apt upgrade -y
 
 2)install docker 
 sudo apt install -y apt-transport-https ca-certificates curl software-properties-common
@@ -72,7 +72,7 @@ docker-compose --version
 5)install git for cloning
 sudo apt install -y git
 
-# step 5 after the above sofware install next github repo clone into ec2 beacse first time we do docker images and run manually then later ci/cd will deploy continously .
+# step 5 after the above sofware install next github repo clone into ec2 beacse first time we do build docker images and run containers manually then later ci/cd will deploy continously .
 
 create one project folder in ec2 then clone github repo to the folder using 
 mkdir -p ~/deploy/dd-mean
